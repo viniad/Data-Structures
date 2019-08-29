@@ -29,13 +29,34 @@ bool LDE<Type>::insere(Type dado) {
     }
 
     novo->prox = atual;
-
     n++;
+    return true;
 }
 
 template <class Type>
-bool LDE<Type>::remove(Type x) {
+bool LDE<Type>::remove(int idx) {
+    No<Type>* anterior = NULL;
+    No<Type>* atual = primeiro;
 
+    int i = 0;
+    if(idx < 0 || idx > n){
+        return false;
+    }
+
+    while(atual && i < idx){
+        anterior = atual;
+        atual = atual->prox;
+        i++;
+    }
+
+    if(anterior != NULL){
+        anterior->prox = atual->prox;
+    }else{
+        primeiro = atual->prox;
+    }
+
+    delete atual;
+    n--;
 }
 
 template <class Type>
@@ -43,15 +64,32 @@ int LDE<Type>::busca(Type x) {
     No<Type>* atual = primeiro;
 
     int i = 0;
-    while(x != atual->valor){
+    while(atual && atual->valor <= x){
+        if(atual->valor == x){
+            return i;
+        }
         atual=atual->prox;
         i++;
     }
-    return i;
+    return -1;
 }
 
 template <class Type>
-const Type & LDE<Type>::operator[](int x) {}
+const Type & LDE<Type>::operator[](int idx) {
+    No<Type>* atual = primeiro;
+    int i = 0;
+    if(idx > n || idx < 0){
+        throw "Indice fora dos limites";
+    }else{
+        while(atual){
+            if(i == idx){
+                return atual->valor;
+            }
+            atual = atual->prox;
+            i++;
+        }
+    }
+}
 
 template <class Type>
 void LDE<Type>::imprime() {

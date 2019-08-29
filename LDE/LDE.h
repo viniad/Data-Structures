@@ -11,7 +11,7 @@ private:
 public:
     LDE();
     bool insere(Type x);
-    bool remove(Type x);
+    bool remove(int x);
     int busca(Type x);
     const Type&operator[] (int x);
     void imprime();
