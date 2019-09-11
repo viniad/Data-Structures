@@ -1,56 +1,57 @@
 #include <iostream>
-#include <queue>
-
 using namespace std;
 
 template <typename T>
-class IFila{
+class IFila {
 public:
-    virtual bool enfileira(T valor) = 0;
-    virtual T desenfileira(bool* ok) = 0;
-    virtual void imprime() = 0;
-    virtual ~IFila(){};
+    virtual bool enfileira (T valor) = 0;
+    virtual T desenfileira (bool* ok) = 0;
+    virtual void imprime () = 0;
+    virtual ~IFila () {
+    }
 };
 
 template <typename T>
-class Fila : public IFila<T>{
+class FilaCircular : IFila<T> {
 private:
     T* v;
+    int max;
     int i;
     int f;
-    int max;
+
 public:
-    Fila(const Fila& outra){
-        v = new T[outra.max];
-        i = outra.i;
-        f = outra.f;
-        max = outra.max;
-        //copy(outra )
-    }
-    Fila(int maximo) {
-        v = new T[maximo];
+    explicit FilaCircular (int Max){
+        v = new T[Max];
         i=f=0;
-        max = maximo + 1;
+        max = Max + 1;
     }
 
-    ~Fila(){
+    virtual ~FilaCircular (){
         delete[] v;
     }
 
-    bool enfileira(T valor){
-        if( (f+1) % max == i){
+    bool enfileira (T valor){
+        if((f+1)% max == i){
             cout << "Lista cheia" << endl;
             return false;
         }
 
-
         v[f] = valor;
-        f = (f + 1) % max;
+        f = (f+1) % max;
         return true;
+
+    }
+
+    void imprime(){
+        int j;
+        for(j = i; j != f; j=(j+1) % max){
+            cout << v[j] << " ";
+        }
+        cout << endl;
     }
 
     T desenfileira(bool* ok = NULL){
-        if( i == f) {
+        if(i == f){
             if(ok){
                 *ok = false;
             }
@@ -58,50 +59,84 @@ public:
         }
 
         T temp = v[i];
-        i = (i + 1) % max;
+        i = (i+1) % max;
         if(ok)
             *ok = true;
         return temp;
-
     }
 
-    void imprime(){
+    FilaCircular (const FilaCircular& outra){
+        max = outra.max;
+        i = outra.i;
+        f = outra.f;
+        v = new T[max];
+
         int j;
-        for(j=i; j != f; j=(j+1)%max){
-            cout << v[j] << " ";
+        for(j = i; j != f; j = (j+1)%max){
+            v[j] = outra.v[j];
         }
-        cout << endl;
+    }
+
+    FilaCircular& operator= (const FilaCircular& outra){
+        cout << "operator=()" << endl;
+        delete[] v;
+        i = outra.i;
+        f = outra.f;
+        max = outra.max;
+        v = new T[max];
+
+        int j;
+        for(j = i; j != f; j = (j+1)%outra.max){
+            v[j] = outra.v[j];
+        }
+    }
+
+    FilaCircular& operator<< (T valor){
+        enfileira(valor);
+        return *this;
     }
 
 };
 
 
-int main() {
 
-    Fila<float> f(5);
-    f.enfileira(10);
-    f.enfileira(5);
-    f.enfileira(3);
-    f.enfileira(8);
-    f.enfileira(12);
-    f.enfileira(20);
-    f.enfileira(22);
-    cout << "Fila: ";
-    f.imprime();
-    cout << endl;
+int main (int argc, char* argv[]) {
+    FilaCircular<float> f (3);
+    f.enfileira (5.2);
+    f.enfileira (2.2);
+    f.enfileira (3.2);
+    f.enfileira (9.2);
+    f.enfileira (5.1);
 
-    bool ok;
-
-
+    bool ok = false;
     do {
-        float x = f.desenfileira(&ok);
+        float r = f.desenfileira (&ok);
         if (ok)
-            cout << "Desenfileirando.... " << x << endl;
-    }while(ok);
+            cout << r << endl;
+    } while (ok); // Deve Imprimir somente 5.2, 2.2 e 3.2
 
-    f.imprime();
-    f.enfileira(1);
-    f.imprime();
+    f.enfileira (3);
+    f.enfileira (2);
+    f.enfileira (1);
+
+
+    FilaCircular<float> f2 (10);
+    f2 = f;
+
+
+    cout << f.desenfileira ()  << endl; // Deve Imprimir 3
+    cout << f2.desenfileira () << endl; // Deve Imprimir 3
+    cout << f2.desenfileira () << endl; // Deve Imprimir 2
+    cout << f.desenfileira ()  << endl; // Deve Imprimir 2
+
+
+    f2 << 10 << 9 << 8 << 7 << 6;
+    /*f2.enfileira(10);
+    f2.enfileira(9);
+    f2.enfileira(8);
+    f2.enfileira(7);
+    f2.enfileira(6);*/
+    f2.imprime();
 
     return 0;
 }
