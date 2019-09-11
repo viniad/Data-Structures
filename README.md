@@ -1,4 +1,4 @@
-# Estruturas-de-Dados
+# Data Structures
 
 Data Structures in Portuguese-BR implemented in C++.
 
