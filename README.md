@@ -20,7 +20,7 @@ store in the node.
 
 The difference between Linked List and Static List is that in the linked list you do not have to pass a maximum cappacity to the
 constructor.
-It has a pointer **primeiro (first)** and the attribute **n**.
+It has a pointer **primeiro *(first)*** and the attribute **n**.
 - *primeiro* = it's a node pointer that points to the first element in the list.
 - *n* = number of elements in the list, it's incremented every time a value is insered.
 
@@ -30,7 +30,7 @@ It has a pointer **primeiro (first)** and the attribute **n**.
 To implement this List you must have a class named Node with a pointer to the **next** and **previous** node and the value you will
 store in the node.
 
-The Doubly Linked List has the pointers **primeiro (first)**, **ultimo (last)** and the attribute **n**.
+The Doubly Linked List has the pointers **primeiro *(first)***, **ultimo *(last)*** and the attribute **n**.
 - *primeiro* = it's a node pointer that points to the first element in the list.
 - *ultimo* = it's a node pointer that points to the last element in the list.
 - *n* = number of elements in the list, it's incremented every time a value is insered.
