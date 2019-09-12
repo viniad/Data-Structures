@@ -37,3 +37,10 @@ The Doubly Linked List has the pointers **primeiro *(first)***, **ultimo *(last)
 
 ![](LDDE%20(Doubly%20Linked%20List)/images/LDDE.png)
 
+## Fila *(Queue)*
+In Queue, the pointer **i *(head)*** will always point to the front of the queue, and the  **f *(tail)*** will always point to the end of the queue.
+
+Initially, these two pointers will be pointing to the same spot which means the queue is empty.
+
+
+
